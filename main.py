@@ -102,17 +102,19 @@ def EV():
   s+=z if p>0 else-z
  return s*SD
 def O(ms):
- ms.sort(key=lambda m:-V[abs(B[(m>>7)&127])])
+ ms.sort(key=lambda m:-V[abs(B[m>>7&127])])
  return ms
-NN=0;NB=50000;W=10**6
+NN=0;NB=15000;W=10**6
 def SR(a,b,d,pl):
- global NN
- NN+=1
+ global NN,QN
+ NN+=d>0
+ QN+=d<1
  if NN>NB:raise StopIteration
- if d<=0:
+ if QN>1e4 and d<1:return EV()
+ if d<1:
   a=max(a,EV())
   if a>=b:return b
- ms=O(G(d<=0));bv=-W
+ ms=O(G(d<1));bv=-W
  for m in ms:
   u=MK(m)
   if A(B.index(-6*SD),SD):UM(u);continue
@@ -120,14 +122,13 @@ def SR(a,b,d,pl):
   UM(u)
   if v>=b:return b
   a=max(a,v);bv=max(bv,v)
- if d<=0:return a
+ if d<1:return a
  if bv==-W:return-9999+pl if A(B.index(6*SD),-SD) else 0
  return max(a,bv)
 def TH(lg):
- global NN
+ global NN,QN
  ms=[m for m in G(0)if S(m)in lg]
- if not ms:return lg
- O(ms);bo=ms[0];NN=0;d=1
+ O(ms);bo=ms[0];NN=0;QN=0;d=1
  while 1:
   try:
    bv=-W;nb=bo
@@ -146,4 +147,3 @@ while 1:
  while g.get("status")=="your_move":
   n=g["game"];F(g["fen"]);od=TH(g["legal_moves"]);g={}
   g=next(filter(None,(P("/move",{"game":n,"move":mv})for mv in od)),{})
-  if not g:g=P("/game",{})
