@@ -104,7 +104,7 @@ def EV():
 def O(ms):
  ms.sort(key=lambda m:-V[abs(B[m>>7&127])])
  return ms
-NN=0;NB=15000;W=10**6
+NN=0;NB=8000;W=10**6
 def SR(a,b,d,pl):
  global NN,QN
  NN+=d>0
